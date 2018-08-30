@@ -11,10 +11,13 @@ function main () {
 	var handleHeight = 1;
 	var handleDepth = 2;
 
-	var totalHeight = 55;
+	var totalHeight = 60;
 
 	var footWidth = 4;
-	var footMargin = 3;
+	var footMargin = 2;
+
+	var frameHeight = 5;
+	var frameWidth = 2;
 
 	var drawerPulledOut = 0;
 	
@@ -54,14 +57,24 @@ function main () {
 
 	var foot = cube({size: [footWidth, footWidth, totalHeight-corpusHeight]});
 
+	var wideFrame = cube({size: [frameWidth, corpusWidth-2*footMargin, frameHeight]})
+		.translate([footMargin+(footWidth-frameWidth)/2, footMargin, totalHeight-corpusHeight-frameHeight]);
+		
+	var deepFrame = cube({size: [corpusDepth-2*footMargin, frameWidth, frameHeight]})
+		.translate([footMargin, footMargin+(footWidth-frameWidth)/2, totalHeight-corpusHeight-frameHeight]);
+
 	var feet = union(
 		 foot.translate([footMargin, footMargin, 0])
 		,foot.translate([corpusDepth-footMargin-footWidth, footMargin, 0])
 		,foot.translate([footMargin, corpusWidth-footMargin-footWidth, 0])
 		,foot.translate([corpusDepth-footMargin-footWidth, corpusWidth-footMargin-footWidth, 0])
+		,wideFrame
+		,wideFrame.mirroredX().translate([corpusDepth, 0, 0])
+		,deepFrame
+		,deepFrame.mirroredY().translate([0, corpusWidth, 0])
 	);
 
-	corpus = union(corpus, feet).setColor(0.5, 0.3, 0.2);
+	corpus = union(corpus, feet).center('x', 'y').setColor(0.5, 0.3, 0.2);
 
 	
 
