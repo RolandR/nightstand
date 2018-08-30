@@ -11,7 +11,10 @@ function main () {
 	var handleHeight = 1;
 	var handleDepth = 2;
 
-	var totalHeight = 60;
+	var totalHeight = 55;
+
+	var footWidth = 4;
+	var footMargin = 3;
 
 	var drawerPulledOut = 0;
 	
@@ -48,6 +51,17 @@ function main () {
 	corpus = union(corpus, drawer);
 
 	corpus = corpus.translate([0, 0, totalHeight-corpusHeight]);
+
+	var foot = cube({size: [footWidth, footWidth, totalHeight-corpusHeight]});
+
+	var feet = union(
+		 foot.translate([footMargin, footMargin, 0])
+		,foot.translate([corpusDepth-footMargin-footWidth, footMargin, 0])
+		,foot.translate([footMargin, corpusWidth-footMargin-footWidth, 0])
+		,foot.translate([corpusDepth-footMargin-footWidth, corpusWidth-footMargin-footWidth, 0])
+	);
+
+	corpus = union(corpus, feet).setColor(0.5, 0.3, 0.2);
 
 	
 
